@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+{% autoescape false %}
+<html>
+  <head>
+    <link type="text/css" rel="stylesheet" href="assets/css/question.css" />
+    <script type="text/javascript" src="libs/jquery/dist/jquery.min.js"></script>
+  </head>
+  <body>
+
+    <h2 data-id="asd">Question: {{question.title}} </h2>
+    {% if user %}
+    {% if user == question.author %}
+    <p><small><a href="/edit_question?qid={{question.key.urlsafe()}}">Edit</a></small></p>
+    {% endif %}
+    {% endif %}
+
+    <table>
+        <tr>
+            <td class="votecell">
+                <div class="vote" data-id="{{question.key.urlsafe()}}">
+                    <a class="upvote"></a>
+                    <span class="vote-count">{{q_vote}}</span>
+                    <a class="downvote"></a>
+                </div>
+            </td>
+            <td>
+                {{ parse_content(question.content) }}
+            </td>
+        </tr>
+    </table>
+
+    <p>------- By <i> {{question.author.nickname()}} </i></p>
+    <p>Tags: {{ ', '.join(question.tags) }}</p>
+
+    <p><small><a href="/rss?qid={{question.key.urlsafe()}}">RSS</a></small></p>
+
+    <hr>
+
+    <h1>Answers: </h1>
+
+    {% for ans in answers %}
+    <hr>
+    {% if user %}
+    {% if user == ans.entity.author %}
+    <small><a href="/edit_answer?aid={{ans.entity.key.urlsafe()}}">Edit</a></small>
+    {% endif %}
+    {% endif %}
+    <table>
+        <tr>
+            <td class="votecell">
+                <div class="vote" data-id="{{ans.entity.key.urlsafe()}}">
+                    <a class="upvote"></a>
+                    <span class="vote-count">{{ans.vote}}</span>
+                    <a class="downvote"></a>
+                </div>
+            </td>
+            <td>
+                {{ans.entity.content}}
+            </td>
+        </tr>
+    </table>
+    {% endfor %}
+
+    <form action="/answer?qid={{question.key.urlsafe()}}" method="post">
+      <div><textarea name="content" rows="3" cols="60"></textarea></div>
+      <div><input type="submit" value="Add Answer"></div>
+    </form>
+
+
+    <p><a href="/">Home</a></p>
+
+    <script type="text/javascript">
+    $('.upvote').click(function(){
+      $.ajax({
+        type: "POST",
+        url: "/vote",
+        data: {
+          id: $(this).parent().data("id"),
+          up: 1
+        }
+      }).done(function() {
+        location.reload();
+      });
+    });
+
+    $('.downvote').click(function(){
+      $.ajax({
+        type: "POST",
+        url: "/vote",
+        data: {
+          id: $(this).parent().data("id")
+        }
+      }).done(function() {
+        location.reload();
+      });
+    });
+
+    </script>
+  </body>
+</html>
+{% endautoescape %}
+
+
+
+
+
+

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+{% autoescape true %}
+<html>
+  <head>
+    <link type="text/css" rel="stylesheet" href="/assets/css/main.css" />
+  </head>
+  <body>
+    
+    <form action="/edit_question?qid={{question.key.urlsafe()}}" method="post">
+      <div>Title: <input name="title" type="text" size="30" value="{{question.title}}" ></input>
+      <div>Tags: <input name="tags" type="text" placeholder="separated by comma" value="{{','.join(question.tags)}}"></input></div>   
+      <div><textarea name="content" rows="3" cols="60">{{question.content}}</textarea></div>
+      <div><input type="submit" value="Edit Question"></div>
+    </form>
+
+  </body>
+</html>
+{% endautoescape %}

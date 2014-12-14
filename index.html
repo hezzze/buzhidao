@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+{% autoescape false %}
+<html>
+  <head>
+    <link type="text/css" rel="stylesheet" href="/assets/css/main.css" />
+  </head>
+  <body>
+
+    <h3>Questions</h3>
+    {% if tag %}
+    <small>Tag: {{tag}}</small>
+    {% endif %}
+
+    <ol>
+    {% for question in questions %}
+      <a href="/question?qid={{question.key.urlsafe()}}">{{ question.title }}</a>
+      <p><small>By {{ question.author.nickname() }}</small></p>
+      <p>
+        {{ parse_content(question.content[:500])}}
+        {% if question.content|length > 500 %}
+        ...<a href="/question?qid={{question.key.urlsafe()}}">more</a>
+        {% endif %}
+      </p>
+      <p><small>{{question.created_date}}</small></p>
+    {% endfor %}
+    </ol>
+
+    <p>
+      {% if page > 0 %}
+      <a href="/?page={{page-1}}{{'&tag=' + tag if tag else ''}}">newer</a>
+      {% endif %}
+
+      {% if page < n_page - 1 %}
+      <a href="/?page={{page+1}}{{'&tag=' + tag if tag else ''}}">older</a>
+      {% endif %}
+    </p>
+
+    {% if tag %}
+    <p><a href="/">Show all</a></p>
+    {% endif %}
+
+
+    {% if user %}
+    <form action="/ask" method="post">
+      <div>Title: <input name="title" type="text" size="30"></input>
+      <div>Tags: <input name="tags" type="text" placeholder="separated by comma"></input></div>
+      <div><textarea name="content" rows="3" cols="60"></textarea></div>
+      <div><input type="submit" value="Add Question"></div>
+    </form>
+    {% endif %}
+
+    {% if file_upload_url %}
+    <form action="{{file_upload_url}}" enctype="multipart/form-data" method="post">
+      <p>Upload image:</p>
+      <div><input type="file" name="file"></div>
+      <div><input type="submit" value="Upload"></input></div>
+    </form>
+    {% endif %}
+
+    <hr>
+
+    <nav>
+      <ul>
+        {% for i in range(n_page) %}
+        {% if i == page %}
+        <li><b>{{i+1}}</b></li>
+        {% else %}
+        <li><a href="/?page={{i}}{{'&tag=' + tag if tag else ''}}">{{i+1}}</a></li>
+        {% endif %}
+        {% endfor %}
+      </ul>
+    </nav>
+
+    <form action="/" method="get">
+      <div>Search by tag: <input name="tag" type="text"></input> </div>
+      <div><input type="submit" value="Search"></input></div>
+    </form>
+
+    <p><a  href="{{ url|safe }}">{{ url_linktext }}</a></p>
+
+    <p>{{html}}</p>
+
+  </body>
+</html>
+{% endautoescape %}

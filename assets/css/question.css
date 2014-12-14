@@ -1,0 +1,48 @@
+body {
+	font-family: Arial,Liberation Sans,DejaVu Sans,sans-serif;
+}
+
+p {
+	margin-left: 22px;
+}
+
+.vote {
+	text-align: center;
+}
+
+.vote span {
+	display: block;
+	font-weight: normal;
+}
+
+.votecell {
+
+	width: 60px;
+	vertical-align: top;
+
+}
+
+.vote-count {
+	font-size: 24px;
+}
+
+.upvote {
+	background-position: 0 -265px;
+}
+
+.upvote, .downvote {
+	text-indent: -9999em;
+	font-size: 1px;	
+	cursor: pointer;
+        background-image: url('../imgs/stack_overflow_sprites.png');
+        background-repeat: no-repeat;
+        overflow: hidden;
+	display: block;
+	margin: 0 auto;
+	width: 41px;
+	height: 25px;
+}
+
+.downvote {
+	background-position: 0 -300px;
+}

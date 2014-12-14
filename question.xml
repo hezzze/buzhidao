@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+<channel>
+ <title>{{question.title}}</title>
+ <author>{{question.author.nickname()}}</author>
+ <description>{{question.content}}</description>
+ <link>{{url}}</link>
+ <lastBuildDate>{{question.modified_date}} </lastBuildDate>
+ <pubDate>{{question.created_date}}</pubDate>
+
+ {% for ans in answers %}
+ 
+ <item>
+  <description>{{ans.content}}</description>
+  <author>{{ans.author.nickname()}}</author>
+  <pubDate>{{ans.created_date}}</pubDate>
+ </item>
+
+ {% endfor %}
+ 
+</channel>
+</rss>

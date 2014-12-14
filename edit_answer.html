@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+{% autoescape true %}
+<html>
+  <head>
+  	<link type="text/css" rel="stylesheet" href="/assets/css/main.css" />
+  </head>
+  <body>
+    
+    <form action="/edit_answer?aid={{answer.key.urlsafe()}}" method="post">
+      <div><textarea name="content" rows="3" cols="60">{{answer.content}}</textarea></div>
+      <div><input type="submit" value="Edit Answer"></div>
+    </form>
+
+  </body>
+</html>
+{% endautoescape %}
