@@ -49,14 +49,14 @@ class Answer(ndb.Model):
 
 def url_repl(m):
     ext = m.group(1)
-    if ext in ['png', 'jpg', 'gif']:
+    if ext in ['.png', '.jpg', '.gif']:
         return "<img src='%s'>" % m.group(0)
     else:
         return "<a href='%s'>%s</a>" % (m.group(0), m.group(0))
 
 def parse_content(content):
 
-    return re.sub(r'(?:[a-zA-Z0-9]+://)?(?:[a-zA-Z0-9_]+:[a-zA-Z0-9_]+@)?(?:[a-zA-Z0-9.-]+\.[A-Za-z]{2,4})(?::[0-9]+)?(?:/[^ \.]*)?(?:\.(gif|jpg|png))?(?:/[^ ]*)?', url_repl, content)
+    return re.sub(r'[a-zA-Z0-9]+://(?:[a-zA-Z0-9_]+:[a-zA-Z0-9_]+@)?(?:[a-zA-Z0-9.-]+\.[A-Za-z]{2,4})(?::[0-9]+)?(?:/[^ \.]*)?(\.[^ ]*)?(?:/[^ ]*)?', url_repl, content)
 
 
 class MainPage(webapp2.RequestHandler):
